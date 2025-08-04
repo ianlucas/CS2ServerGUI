@@ -18,9 +18,9 @@ jobs:
         submodules: recursive
         
     - name: Setup xmake
-      uses: xmake-io/xmake-action@v1
+      uses: xmake-io/github-action-setup-xmake@v1
       with:
-        version: latest
+        xmake-version: latest
         
     - name: Build project
       run: xmake -v
