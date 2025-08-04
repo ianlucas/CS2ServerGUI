@@ -23,7 +23,7 @@ jobs:
         xmake-version: latest
         
     - name: Build project
-      run: xmake -v
+      run: xmake -v -y
       
     - name: Create addons directory structure
       run: |
