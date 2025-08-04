@@ -1,0 +1,53 @@
+name: Build CS2ServerGUI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        
+    - name: Setup xmake
+      uses: xmake-io/xmake-action@v1
+      with:
+        version: latest
+        
+    - name: Build project
+      run: xmake -v
+      
+    - name: Create addons directory structure
+      run: |
+        mkdir -p addons/CS2ServerGUI/bin
+        mkdir -p addons/metamod
+        
+    - name: Copy built DLL
+      run: |
+        copy build\windows\x64\release\CS2ServerGUI.dll addons\CS2ServerGUI\bin\
+        
+    - name: Create CS2ServerGUI.vdf
+      run: |
+        echo "Metamod Plugin" > addons\metamod\CS2ServerGUI.vdf
+        echo "{" >> addons\metamod\CS2ServerGUI.vdf
+        echo "	\"alias\"	\"cs2servergui\"" >> addons\metamod\CS2ServerGUI.vdf
+        echo "	\"file\"	\"addons\\CS2ServerGUI\\bin\\CS2ServerGUI\"" >> addons\metamod\CS2ServerGUI.vdf
+        echo "}" >> addons\metamod\CS2ServerGUI.vdf
+        
+    - name: Create zip artifact
+      run: |
+        powershell Compress-Archive -Path addons -DestinationPath addons.zip
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: addons
+        path: addons.zip 
