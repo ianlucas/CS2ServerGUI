@@ -42,12 +42,9 @@ jobs:
         echo "	\"file\"	\"addons\\CS2ServerGUI\\bin\\CS2ServerGUI\"" >> addons\metamod\CS2ServerGUI.vdf
         echo "}" >> addons\metamod\CS2ServerGUI.vdf
         
-    - name: Create zip artifact
-      run: |
-        powershell Compress-Archive -Path addons -DestinationPath addons.zip
-        
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: addons
-        path: addons.zip 
+        path: addons/
+        retention-days: 30 
