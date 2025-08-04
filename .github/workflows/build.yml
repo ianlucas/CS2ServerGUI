@@ -36,11 +36,14 @@ jobs:
         
     - name: Create CS2ServerGUI.vdf
       run: |
-        echo "Metamod Plugin" > addons\metamod\CS2ServerGUI.vdf
-        echo "{" >> addons\metamod\CS2ServerGUI.vdf
-        echo "	\"alias\"	\"cs2servergui\"" >> addons\metamod\CS2ServerGUI.vdf
-        echo "	\"file\"	\"addons\\CS2ServerGUI\\bin\\CS2ServerGUI\"" >> addons\metamod\CS2ServerGUI.vdf
-        echo "}" >> addons\metamod\CS2ServerGUI.vdf
+        @echo off
+        (
+        echo "Metamod Plugin"
+        echo "{"
+        echo "	\"alias\"	\"cs2servergui\""
+        echo "	\"file\"	\"addons\CS2ServerGUI\bin\CS2ServerGUI\""
+        echo "}"
+        ) > addons\metamod\CS2ServerGUI.vdf
         
     - name: Upload artifact
       uses: actions/upload-artifact@v4
