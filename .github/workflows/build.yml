@@ -36,14 +36,7 @@ jobs:
         
     - name: Create CS2ServerGUI.vdf
       run: |
-        $content = @'
-"Metamod Plugin"
-{
-	"alias"	"cs2servergui"
-	"file"	"addons\CS2ServerGUI\bin\CS2ServerGUI"
-}
-'@
-        $content | Out-File -FilePath "addons\metamod\CS2ServerGUI.vdf" -Encoding UTF8
+        Set-Content -Path "addons\metamod\CS2ServerGUI.vdf" -Value '"Metamod Plugin"', '{', '	"alias"	"cs2servergui"', '	"file"	"addons\CS2ServerGUI\bin\CS2ServerGUI"', '}' -Encoding UTF8
         
     - name: Upload artifact
       uses: actions/upload-artifact@v4
